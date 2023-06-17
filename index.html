@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>To Do List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="images/icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        h1 {
+            font-size: 48px;
+            text-align: center;
+            margin: 40px 0px;
+        }
+
+        #inside-container {
+            width: 1000px;
+            min-height: 400px;
+            background-color: #F8F8FF;
+            padding: 50px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            @media only screen and (max-width: 768px) {
+                width: 100%;
+            }
+        }
+
+        #input-field-container {
+            width: 700px;
+            background-color: #E8E8E8;
+            padding: 30px 50px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+
+            @media only screen and (max-width: 768px) {
+                width: 88%;
+            }
+        }
+
+        .to-do-item {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .to-do-item {
+
+            width: 760px;
+            background-color: #E8E8E8;
+            border-radius: 10px;
+            margin: 10px 0;
+            padding: 10px 20px;
+
+            @media only screen and (max-width: 768px) {
+                width: 88%;
+            }
+
+        }
+
+        #add-button {
+            padding: 10px 20px;
+            margin-left: 5px;
+            font-weight: bold;
+        }
+
+        .buttons,
+        .input-field {
+            border-radius: 10px;
+            border: 1px solid #A9A9A9;
+        }
+
+        .buttons:hover {
+            background-color: white;
+            outline: 2px solid #A9A9A9;
+            box-shadow: 0 6px 6px 0 rgba(0, 0, 0, 0.19), 0 8px 10px 0 rgba(0, 0, 0, 0.10);
+        }
+
+        .buttons:active {
+            transform: translateY(2px);
+        }
+
+        .icon {
+            width: 24px;
+            padding: 5px;
+            align-self: self-end;
+        }
+
+        #input-text {
+            height: 35px;
+            width: 88%;
+            padding-left: 10px;
+        }
+
+        .checkbox {
+            min-width: 36px;
+            width: 36px;
+            height: 36px;
+            border: 2px solid #A9A9A9;
+            border-radius: 10px;
+
+        }
+
+        p {
+            font-weight: bold;
+            padding-left: 10px;
+            flex-grow: 6;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .to-do-item:hover {
+            background-color: #FFFFFF;
+            outline: 1px solid #E8E8E8;
+        }
+
+        ul li.to-do-item.checked {
+            background: #888;
+            color: #fff;
+            text-decoration: line-through;
+        }
+
+        ul li.to-do-item.checked div {
+            background-image: url(images/checkMark2.png);
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>To Do List</h1>
+    <div id="container">
+        <div id="inside-container">
+            <div id="input-field-container">
+                <input type="text" id="input-text" name="to-do-item" class="input-field">
+                <button id="add-button" onclick="addNewElement()" class="buttons">Add</button>
+            </div>
+            <ul id="to-do-items-container">
+                <li class="to-do-item js-checked">
+                    <div class="checkbox js-checked"></div>
+                    <p class="pForToDo js-checked">Complete JavaScript course</p>
+                    <button class="remove-buttons buttons"><img src="images/delete-32.png" class="icon"
+                            alt="remove"></button>
+                </li>
+                <li class="to-do-item js-checked">
+                    <div class="checkbox js-checked"></div>
+                    <p class="pForToDo js-checked">To do something else</p>
+                    <button class="remove-buttons buttons"><img src="images/delete-32.png" class="icon"
+                            alt="remove"></button>
+                </li>
+                <li class="to-do-item checked js-checked">
+                    <div class="checkbox js-checked"></div>
+                    <p class="pForToDo js-checked">Try to do homework</p>
+                    <button class="remove-buttons buttons"><img src="images/delete-32.png" class="icon"
+                            alt="remove"></button>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Add a "checked" symbol when clicking on a list item
+        let list = document.querySelector('ul');
+
+        list.addEventListener('click', function (ev) {
+            console.log(ev.target.className);
+            if (ev.target.className.includes('js-checked')) {
+                const target = ev.target.tagName == 'LI'?  ev.target : ev.target.parentElement
+                console.log(target);
+                target.classList.toggle('checked');
+              
+            }
+        }, false);
+
+        // Click on a close button to hide the current list item
+        let closeList = document.getElementsByClassName('remove-buttons');
+        for (let i = 0; i < closeList.length; i++) {
+            closeList[i].onclick = function () {
+                this.parentElement.remove(this);
+            }
+        }
+
+        //Add new element when user clicks add button
+        function addNewElement() {
+            let textToDo = document.getElementById('input-text').value;
+            if (textToDo === '') {
+                alert("You need to write at least something");
+            } else {
+                console.log(textToDo);
+                let newLi = document.createElement('li');
+                newLi.className = "to-do-item";
+                newLi.innerHTML += `<div class="checkbox"></div>
+                    <p class="pForToDo">${textToDo}</p>
+                    <button class="remove-buttons buttons"><img src="images/delete-32.png" class="icon"
+                            alt="remove"></button>`
+
+
+                document.getElementById('to-do-items-container').appendChild(newLi);
+            }
+            document.getElementById('input-text').value = '';
+            let closeList = document.getElementsByClassName('remove-buttons');
+            for (let i = 0; i < closeList.length; i++) {
+                closeList[i].onclick = function () {
+                    this.parentElement.remove(this);
+                }
+            }
+        }
+
+        //Add new element when user presses Enter key
+        document.getElementById('input-text').addEventListener('keydown', function enterFunction(e) {
+            if (e.key === 'Enter') {
+                addNewElement();
+            }
+        });
+
+    </script>
+</body>
+
+</html>
